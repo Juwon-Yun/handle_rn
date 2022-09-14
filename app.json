@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "movie_app_clone",
+    "slug": "movie_app_clone",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "movie_app_clone"
+}
