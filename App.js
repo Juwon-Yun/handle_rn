@@ -1,6 +1,10 @@
 import AppLoading from 'expo-app-loading';
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text} from 'react-native';
+// import * as SplashScreen from 'expo-splash-screen';
+
+
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
