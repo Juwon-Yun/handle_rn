@@ -12,16 +12,26 @@ import {Asset} from 'expo-asset';
 
 // SplashScreen.preventAutoHideAsync();
 
+const loadFonts = (fonts) => fonts.map(font => Font.loadAsync(Ionicons.font)); 
+
+const loadAssets = (images) => images.map(image => {
+  if(typeof image === 'string'){
+    return Image.prefetch(image);
+  } else {
+    return Asset.loadAsync(image);
+  }
+})
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const onFinish = () => setIsLoading(true);
   const startLoading = async () => {
-    await Font.loadAsync(Ionicons.font)
-
+    const fonts = loadFonts([Font.loadAsync(Ionicons.font), Font.loadAsync(Ionicons.font)]);
+    console.log(fonts)
     // 2 type preload : local assets or assets API
-    await Asset.loadAsync(require('./s.png'));
 
-    await Image.prefetch('https://yt3.ggpht.com/IdRkd4wCZXxbxMG8mbWhCF7nxiypaO1w6EQ6RbtBn02R31MIY2z8FEqbHs0FDQERkBYqZlXAnFU=s48-c-k-c0x00ffffff-no-rj')
+    const images = loadAssets([require('./s.png'), 'https://yt3.ggpht.com/IdRkd4wCZXxbxMG8mbWhCF7nxiypaO1w6EQ6RbtBn02R31MIY2z8FEqbHs0FDQERkBYqZlXAnFU=s48-c-k-c0x00ffffff-no-rj']);
+    console.log(images)
   };
 
   if(!isLoading){
