@@ -27,11 +27,11 @@ export default function App() {
   const onFinish = () => setIsLoading(true);
   const startLoading = async () => {
     const fonts = loadFonts([Font.loadAsync(Ionicons.font), Font.loadAsync(Ionicons.font)]);
-    console.log(fonts)
     // 2 type preload : local assets or assets API
 
     const images = loadAssets([require('./s.png'), 'https://yt3.ggpht.com/IdRkd4wCZXxbxMG8mbWhCF7nxiypaO1w6EQ6RbtBn02R31MIY2z8FEqbHs0FDQERkBYqZlXAnFU=s48-c-k-c0x00ffffff-no-rj']);
-    console.log(images)
+
+    await Promise.all([...fonts, ...images])
   };
 
   if(!isLoading){
