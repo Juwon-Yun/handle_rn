@@ -40,9 +40,14 @@ export default function App() {
   //   );
   // }
 
+  // init db
+  // fetch
+  // noti
   const [assets] = useAssets([require('./s.png'), 'https://yt3.ggpht.com/IdRkd4wCZXxbxMG8mbWhCF7nxiypaO1w6EQ6RbtBn02R31MIY2z8FEqbHs0FDQERkBYqZlXAnFU=s48-c-k-c0x00ffffff-no-rj']);
+  const [fonts] = Font.useFonts(Font.loadAsync(Ionicons.font));
 
-  if(!assets){
+
+  if(!assets || fonts){
     return <AppLoading/>
   }
 
