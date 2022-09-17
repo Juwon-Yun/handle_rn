@@ -1,11 +1,14 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import Movie from '../screens/Movie';
+import Search from '../screens/Search';
+import Tv from '../screens/Tv';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => <Tab.Navigator>
-    <Tab.Screen name='Movie' component={}/>
-    <Tab.Screen name='Tv' component={}/>
-    <Tab.Screen name='Search' component={}/>
+    <Tab.Screen name='Movie' component={Movie}/>
+    <Tab.Screen name='Tv' component={Tv}/>
+    <Tab.Screen name='Search' component={Search}/>
 </Tab.Navigator>
 
 export default Tabs;
