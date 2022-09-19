@@ -1,12 +1,12 @@
 import AppLoading from 'expo-app-loading';
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, Image} from 'react-native';
+import { SafeAreaView, View, Text, Image, useColorScheme} from 'react-native';
 
 //https://docs.expo.dev/guides/icons/
 import * as Font from 'expo-font';
 import {Ionicons} from "@expo/vector-icons"
 import {Asset, useAssets} from 'expo-asset';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import Tabs from './navigation/Tabs';
 
 // import * as SplashScreen from 'expo-splash-screen';
@@ -36,6 +36,8 @@ export default function App() {
     await Promise.all([...fonts, ...images])
   };
 
+  const isDark = useColorScheme() === 'dark';
+
   if(!isLoading){
     return (
       <AppLoading startAsync={startLoading} onFinish={onFinish} onError={console.error} />
@@ -55,7 +57,7 @@ export default function App() {
 
 
   return (
-<NavigationContainer>
+<NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
   <Tabs></Tabs>
 </NavigationContainer>
   );

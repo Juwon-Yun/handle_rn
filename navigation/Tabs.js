@@ -17,17 +17,18 @@ const Tabs = () => {
     <Tab.Navigator 
       initialRouteName='Movie'
       screenOptions={{
-        tabBarStyle:{
-          backgroundColor : isDark ? BLACK_COLOR : 'white'
-        },
-        tabBarActiveTintColor : isDark ? YELLOW_COLOR : BLACK_COLOR,
-        tabBarInactiveTintColor : isDark ? '#d2dae2' : '#d2dae2',
-        headerStyle : {
-          backgroundColor : isDark ? BLACK_COLOR : 'white'
-        },
-        headerTitleStyle : {
-          color : isDark ? YELLOW_COLOR : 'black'
-        }
+        // tabBarStyle:{
+        //   backgroundColor : isDark ? BLACK_COLOR : 'white'
+        // },
+        // tabBarActiveTintColor : isDark ? YELLOW_COLOR : BLACK_COLOR,
+        // tabBarInactiveTintColor : isDark ? '#d2dae2' : '#d2dae2',
+        // headerStyle : {
+        //   backgroundColor : isDark ? BLACK_COLOR : 'white'
+        // },
+        // headerTitleStyle : {
+        //   color : isDark ? YELLOW_COLOR : 'black'
+        // }
+
       //     tabBarLabelStyle:{ 
       //         backgroundColor : 'red'
       //     }
