@@ -8,7 +8,10 @@ const ScreenOne = ({navigation: {navigate}}) => <TouchableOpacity onPress={()=>n
 const ScreenTwo = ({navigation: {navigate}}) => <TouchableOpacity onPress={()=>navigate("Three")}>
 <Text>go to thrird screen</Text>
 </TouchableOpacity>
-const ScreenThree = ({navigation: {navigate}}) => <TouchableOpacity onPress={()=>navigate("One")}>
+const ScreenThree = ({navigation: {goBack, setOptions}}) => <TouchableOpacity onPress={()=> {
+    // goBack()
+    return setOptions({title : "third screen"})
+    }}>
 <Text>go to back</Text>
 </TouchableOpacity>
 
