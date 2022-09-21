@@ -8,11 +8,12 @@ const ScreenOne = ({navigation: {navigate}}) => <TouchableOpacity onPress={()=>n
 const ScreenTwo = ({navigation: {navigate}}) => <TouchableOpacity onPress={()=>navigate("Three")}>
 <Text>go to thrird screen</Text>
 </TouchableOpacity>
-const ScreenThree = ({navigation: {goBack, setOptions}}) => <TouchableOpacity onPress={()=> {
+const ScreenThree = ({navigation: {navigate, goBack, setOptions}}) => <TouchableOpacity onPress={()=> {
     // goBack()
-    return setOptions({title : "third screen"})
+    // return setOptions({title : "third screen"})
+    return navigate("Tabs", {screen : "Search"})
     }}>
-<Text>go to back</Text>
+<Text>go to Search</Text>
 </TouchableOpacity>
 
 const NativeStack = createNativeStackNavigator();
