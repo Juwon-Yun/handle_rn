@@ -5,6 +5,7 @@ import Movie from '../screens/Movie';
 import Search from '../screens/Search';
 import Tv from '../screens/Tv';
 import {Ionicons} from "@expo/vector-icons"
+import Stack from './Stack';
 
 // https://reactnavigation.org/docs/tab-based-navigation
 
@@ -50,12 +51,13 @@ const Tabs = () => {
           // headerRight : () => (<View><Text>HeaderRight</Text></View>),
       }}
       >
-      <Tab.Screen name='Movie' component={Movie} 
+      <Tab.Screen name='Movie' component={Stack} 
         options={{
           tabBarIcon: ({focused, color, size}) => {
               // console.log(focused, color, size)
               return <Ionicons name={focused ? "film" : "film-outline"} size={size} color={color} />
-          }
+          }, 
+          headerShown : false,
         }}
         />
       <Tab.Screen name='TV' component={Tv}

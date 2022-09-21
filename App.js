@@ -8,7 +8,6 @@ import {Ionicons} from "@expo/vector-icons"
 import {Asset, useAssets} from 'expo-asset';
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import Tabs from './navigation/Tabs';
-import Stack from './navigation/Stack';
 
 // import * as SplashScreen from 'expo-splash-screen';
 
@@ -59,8 +58,7 @@ export default function App() {
 
   return (
 <NavigationContainer theme={isDark ? DarkTheme : DefaultTheme}>
-  {/* <Tabs></Tabs> */}
-  <Stack></Stack>
+  <Tabs />
 </NavigationContainer>
   );
 }
