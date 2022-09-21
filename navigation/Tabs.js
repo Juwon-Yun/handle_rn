@@ -51,13 +51,15 @@ const Tabs = () => {
           // headerRight : () => (<View><Text>HeaderRight</Text></View>),
       }}
       >
-      <Tab.Screen name='Movie' component={Stack} 
+      <Tab.Screen
+        name='Movie' 
+        component={Movie} 
         options={{
           tabBarIcon: ({focused, color, size}) => {
               // console.log(focused, color, size)
               return <Ionicons name={focused ? "film" : "film-outline"} size={size} color={color} />
           }, 
-          headerShown : false,
+          // headerShown : false,
         }}
         />
       <Tab.Screen name='TV' component={Tv}
