@@ -1,6 +1,14 @@
 import React from "react";
-import {View, Text} from 'react-native'
+import {Text, TouchableOpacity} from 'react-native'
 
-const Movie = () => <View style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}><Text> Movie </Text></View>
+const Movie = ({navigation : {navigate}}) => <TouchableOpacity
+    style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}
+    // Tab Nav에서 Stack Nav로 가려고하기 때문에
+    // 다른 Nav 끼리는 Nav명을 명시해줘야 한다.
+    // onPress={ () => navigate("Three")}
+    onPress={ () => navigate("Stack", {screen : "Three"})}
+    >
+        <Text> Movie </Text>
+    </TouchableOpacity>
 
 export default Movie;
