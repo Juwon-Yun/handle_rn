@@ -6,11 +6,13 @@ const Btn = styled.TouchableOpacity`
     flex : 1;
     justify-content : center;
     align-items : center; 
+    background-color: ${props => props.theme.mainBgColor}
 `;
 
 const Title = styled.Text`
-    color : ${(props) => props.selected ? "blue" : "red"};
+    color : ${(props) => props.theme.textColor};
 `;
+    // color : ${(props) => props.selected ? "blue" : "red"};
 
 const Movie = ({navigation : {navigate}}) => <Btn
     // style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}
@@ -18,8 +20,7 @@ const Movie = ({navigation : {navigate}}) => <Btn
     // 다른 Nav 끼리는 Nav명을 명시해줘야 한다.
     // onPress={ () => navigate("Three")}
     onPress={ () => navigate("Stack", {screen : "Three"})}
-    >
-        <Title selected={false}> Movie </Title>
+    >   
         <Title selected={true}> Movie </Title>
     </Btn>
 
