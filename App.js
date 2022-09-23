@@ -9,8 +9,8 @@ import {Asset, useAssets} from 'expo-asset';
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import Tabs from './navigation/Tabs';
 import Root from './navigation/Root';
-import { ThemeProvider } from 'styled-components';
-import { darkTheme, lightTheme } from './styles/theme';
+import { ThemeProvider } from 'styled-components/native';
+import { darkTheme, lightTheme } from './styles/custom_theme';
 
 // import * as SplashScreen from 'expo-splash-screen';
 
