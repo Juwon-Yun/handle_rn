@@ -1,9 +1,11 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Dimensions } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-web-swiper";
 import styled from "styled-components/native";
+import { makeImagePath } from "../common/utils";
+import { BlurView } from "expo-blur";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -20,8 +22,14 @@ const Loader = styled.View`
     justify-content : center;
     align-items : center;
 `
+const BgImg = styled.Image`
+    width : 100%;
+    height : 100%;
+    position : absolute;
+`
+const Title = styled.Text`
 
-
+`
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
 // 코드를 컴파일하기 때문에 에러가 있으면 컴파일 하지 못하지만, 
@@ -30,25 +38,38 @@ const Loader = styled.View`
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
     const [loading, setLoading] = useState(true);
+    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
 
-    const getNowPlaying = () => {
-        fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`).then(
-            () => {
-                setLoading(true);
-            }
-        );
+    const getNowPlaying = async () => {
+        const {results} = await(
+            await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`)
+        ).json();
+        
+        // console.log(results);
+        setNowPlayingMovies(results);
+        setLoading(false);
     };
+
+    useEffect(()=>{
+        getNowPlaying();
+    },[])
 
     return loading ? (
         <Loader>
-            <ActivityIndicator />
+            <ActivityIndicator size={"small"}/>
         </Loader>
         ) : (
     <CustomScrollView>
         <Swiper loop timeout={3.5} controlsEnabled={false} containerStyle={{width : "100%", height : swiperHeight * 0.25}}>
-            <View style={{backgroundColor : "red"}}></View>
-            <View style={{backgroundColor : "blue"}}></View>
-            <View style={{backgroundColor : "white"}}></View>
+            {nowPlayingMovies.map(movie=>(
+                <View key={movie.id} >
+                    <BgImg source={{uri : makeImagePath(movie.backdrop_path)}}/>
+                    <BlurView>
+                        <Title>{movie.original_title}</Title>
+                    </BlurView>
+                </View>
+            ))}
+            
         </Swiper>
     </CustomScrollView>)};
 
