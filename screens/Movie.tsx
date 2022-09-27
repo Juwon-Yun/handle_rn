@@ -1,8 +1,10 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
+import { Dimensions } from "react-native";
 import Swiper from "react-native-web-swiper";
-// import {Text, TouchableOpacity} from 'react-native'
 import styled from "styled-components/native";
+
+const {height : swiperHeight} = Dimensions.get("window");
 
 const CustomScrollView = styled.ScrollView`
     background-color: ${props => props.theme.mainBgColor}
@@ -20,7 +22,7 @@ const View = styled.View`
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () => (
     <CustomScrollView>
-        <Swiper containerStyle={{width : "100%", height : 300}}>
+        <Swiper loop timeout={3.5} controlsEnabled={false} containerStyle={{width : "100%", height : swiperHeight * 0.25}}>
             <View style={{backgroundColor : "red"}}></View>
             <View style={{backgroundColor : "blue"}}></View>
             <View style={{backgroundColor : "white"}}></View>
