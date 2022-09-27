@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
-import { Dimensions } from "react-native";
+import React, { useState } from "react";
+import { ActivityIndicator, Dimensions } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-web-swiper";
 import styled from "styled-components/native";
@@ -16,6 +16,13 @@ const CustomScrollView = styled.ScrollView`
 const View = styled.View`
     flex : 1;
 `
+const Loader = styled.View`
+    flex : 1;
+    justify-content : center;
+    align-items : center;
+    background-color: ${props => props.theme.mainBgColor}
+`
+
 
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
@@ -24,11 +31,21 @@ const View = styled.View`
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
+    const [loading, setLoading] = useState(true);
+
     const getNowPlaying = () => {
-        fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`);
+        fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`).then(
+            () => {
+                setLoading(true);
+            }
+        );
     };
 
-    return (
+    return loading ? (
+        <Loader>
+            <ActivityIndicator />
+        </Loader>
+        ) : (
     <CustomScrollView>
         <Swiper loop timeout={3.5} controlsEnabled={false} containerStyle={{width : "100%", height : swiperHeight * 0.25}}>
             <View style={{backgroundColor : "red"}}></View>
