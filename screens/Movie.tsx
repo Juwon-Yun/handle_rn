@@ -1,11 +1,16 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
+import Swiper from "react-native-web-swiper";
 // import {Text, TouchableOpacity} from 'react-native'
 import styled from "styled-components/native";
 
 const CustomScrollView = styled.ScrollView`
     background-color: ${props => props.theme.mainBgColor}
 `;
+
+const View = styled.View`
+    flex : 1;
+`
 
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
@@ -15,7 +20,11 @@ const CustomScrollView = styled.ScrollView`
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () => (
     <CustomScrollView>
-
+        <Swiper containerStyle={{width : "100%", height : 300}}>
+            <View style={{backgroundColor : "red"}}></View>
+            <View style={{backgroundColor : "blue"}}></View>
+            <View style={{backgroundColor : "white"}}></View>
+        </Swiper>
     </CustomScrollView>
 );
 

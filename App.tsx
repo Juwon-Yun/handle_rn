@@ -40,19 +40,14 @@ export default function App() {
   };
 
 
-  const onLayoutRootView = useCallback(async () => {
-      if(isLoading){
-        await SplashScreen.hideAsync();
-      }
-    },[isLoading]);
-  
   useEffect(() => {
     try{
-      startLoading();
+      startLoading().then( () => {
+        onFinish();
+      });
     }catch (err){
       console.warn(err) 
     }finally{
-      onFinish();
     }
   }, [])
 
@@ -65,15 +60,16 @@ export default function App() {
   
 
 
-  if(!isLoading){
-    return (
-      <View>
-        <Text style={{color : "black"}}>{isLoading}</Text>
-        </View>
+  // if(!isLoading){
+  //   return (
+  //     null
+      // <View>
+      //   <Text style={{color : "black"}}>{isLoading}</Text>
+      //   </View>
       // <AppLoading startAsync={startLoading} onFinish={onFinish} onError={console.error} />
-    );
-  }
-
+    // );
+  // }
+// 
   // init db
   // fetch
   // noti
