@@ -10,7 +10,6 @@ const {height : swiperHeight} = Dimensions.get("window");
 const API_KEY = '34dbe792c998f87663d41737eb203cb2';
 
 const CustomScrollView = styled.ScrollView`
-    background-color: ${props => props.theme.mainBgColor}
 `;
 
 const View = styled.View`
@@ -20,7 +19,6 @@ const Loader = styled.View`
     flex : 1;
     justify-content : center;
     align-items : center;
-    background-color: ${props => props.theme.mainBgColor}
 `
 
 
