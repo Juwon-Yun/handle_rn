@@ -110,8 +110,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                             <Poster source={{uri : makeImagePath(movie.poster_path)}}></Poster>
                             <Column>
                                 <Title>{movie.original_title}</Title>
+                                { movie.vote_average > 0 ? <Votes>⭐️{movie.vote_average}/10</Votes> : null}
                                 <Overview>{movie.overview.slice(0, 90)}...</Overview>
-                                <Votes>⭐️{movie.vote_average}/10</Votes>
                             </Column>
                         </Wrapper>
                     </BlurView>
