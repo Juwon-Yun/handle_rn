@@ -49,6 +49,12 @@ const Overview = styled.Text`
     color: rgba(255,255,255,0.8);
 `;
 
+// extend style => flutter의 copyWith()와 같다.
+const Votes = styled(Overview)`
+    margin-top : 5px;
+    font-size: 12px;
+`;
+
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
 // 코드를 컴파일하기 때문에 에러가 있으면 컴파일 하지 못하지만, 
@@ -105,6 +111,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                             <Column>
                                 <Title>{movie.original_title}</Title>
                                 <Overview>{movie.overview.slice(0, 90)}...</Overview>
+                                <Votes>⭐️{movie.vote_average}/10</Votes>
                             </Column>
                         </Wrapper>
                     </BlurView>
