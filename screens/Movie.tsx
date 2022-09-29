@@ -24,8 +24,31 @@ const Loader = styled.View`
 `
 const BgImg = styled.Image``
 const Title = styled.Text`
-
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
 `
+const Poster = styled.Image`
+    width : 100px;
+    height : 160px;
+    border-radius: 5px;
+`;
+const Wrapper = styled.View`
+    flex-direction: row;
+    height : 100%;
+    justify-content: center;
+    align-items: center;
+`;
+const Column = styled.View`
+    width: 40%;
+    margin-left: 15px;
+`;
+
+const Overview = styled.Text`
+    margin-top : 10px;
+    color: rgba(255,255,255,0.8);
+`;
+
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
 // 코드를 컴파일하기 때문에 에러가 있으면 컴파일 하지 못하지만, 
@@ -77,7 +100,13 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                         intensity={80}
                         style={StyleSheet.absoluteFill}
                     >
-                        <Title>{movie.original_title}</Title>
+                        <Wrapper>
+                            <Poster source={{uri : makeImagePath(movie.poster_path)}}></Poster>
+                            <Column>
+                                <Title>{movie.original_title}</Title>
+                                <Overview>{movie.overview.slice(0, 90)}...</Overview>
+                            </Column>
+                        </Wrapper>
                     </BlurView>
                 </View>
             ))}
