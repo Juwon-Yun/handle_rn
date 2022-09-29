@@ -1,8 +1,8 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions } from "react-native";
+import { ActivityIndicator, Dimensions, StyleSheet, useColorScheme } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
-import Swiper from "react-native-web-swiper";
+import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
 import { makeImagePath } from "../common/utils";
 import { BlurView } from "expo-blur";
@@ -22,11 +22,7 @@ const Loader = styled.View`
     justify-content : center;
     align-items : center;
 `
-const BgImg = styled.Image`
-    width : 100%;
-    height : 100%;
-    position : absolute;
-`
+const BgImg = styled.Image``
 const Title = styled.Text`
 
 `
@@ -39,7 +35,7 @@ const Title = styled.Text`
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
     const [loading, setLoading] = useState(true);
     const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-
+    const isDark = useColorScheme() === 'dark';
     const getNowPlaying = async () => {
         const {results} = await(
             await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`)
@@ -60,11 +56,27 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         </Loader>
         ) : (
     <CustomScrollView>
-        <Swiper loop timeout={3.5} controlsEnabled={false} containerStyle={{width : "100%", height : swiperHeight * 0.25}}>
+        <Swiper 
+            horizontal
+            loop 
+            autoplay
+            autoplayTimeout={3.5}
+            showsButtons={false}
+            showsPagination={false}
+            // controlsEnabled={false}
+            containerStyle={{width : "100%", height : swiperHeight * 0.25}}
+        >
             {nowPlayingMovies.map(movie=>(
                 <View key={movie.id} >
-                    <BgImg source={{uri : makeImagePath(movie.backdrop_path)}}/>
-                    <BlurView>
+                    <BgImg 
+                        source={{uri : makeImagePath(movie.backdrop_path)}}
+                        style={StyleSheet.absoluteFill}
+                    />
+                    <BlurView
+                        tint={isDark ? "dark" : "light"}
+                        intensity={80}
+                        style={StyleSheet.absoluteFill}
+                    >
                         <Title>{movie.original_title}</Title>
                     </BlurView>
                 </View>
