@@ -23,10 +23,10 @@ const Loader = styled.View`
     align-items : center;
 `
 const BgImg = styled.Image``
-const Title = styled.Text`
+const Title = styled.Text<{isDark : boolean}>`
     font-size: 16px;
     font-weight: 600;
-    color: white;
+    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
 `
 const Poster = styled.Image`
     width : 100px;
@@ -44,9 +44,9 @@ const Column = styled.View`
     margin-left: 15px;
 `;
 
-const Overview = styled.Text`
+const Overview = styled.Text<{isDark : boolean}>`
     margin-top : 10px;
-    color: rgba(255,255,255,0.8);
+    color: ${(props)=> props.isDark ? "rgba(255,255,255,0.8)" : "rgba(0, 0, 0,0.8)"};
 `;
 
 // extend style => flutter의 copyWith()와 같다.
@@ -109,9 +109,9 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                         <Wrapper>
                             <Poster source={{uri : makeImagePath(movie.poster_path)}}></Poster>
                             <Column>
-                                <Title>{movie.original_title}</Title>
-                                { movie.vote_average > 0 ? <Votes>⭐️{movie.vote_average}/10</Votes> : null}
-                                <Overview>{movie.overview.slice(0, 90)}...</Overview>
+                                <Title isDark={isDark}>{movie.original_title}</Title>
+                                { movie.vote_average > 0 ? <Votes isDark={isDark}>⭐️{movie.vote_average}/10</Votes> : null}
+                                <Overview isDark={isDark}>{movie.overview.slice(0, 90)}...</Overview>
                             </Column>
                         </Wrapper>
                     </BlurView>
