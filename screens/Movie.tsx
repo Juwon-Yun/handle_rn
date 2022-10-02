@@ -6,6 +6,7 @@ import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
 import { makeImagePath } from "../common/utils";
 import { BlurView } from "expo-blur";
+import Slide from "../components/Slide";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -64,7 +65,6 @@ const Votes = styled(Overview)`
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
     const [loading, setLoading] = useState(true);
     const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-    const isDark = useColorScheme() === 'dark';
     const getNowPlaying = async () => {
         const {results} = await(
             await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`)
@@ -96,26 +96,13 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             containerStyle={{width : "100%", height : swiperHeight * 0.25}}
         >
             {nowPlayingMovies.map(movie=>(
-                <View key={movie.id} >
-                    <BgImg 
-                        source={{uri : makeImagePath(movie.backdrop_path)}}
-                        style={StyleSheet.absoluteFill}
-                    />
-                    <BlurView
-                        tint={isDark ? "dark" : "light"}
-                        intensity={80}
-                        style={StyleSheet.absoluteFill}
-                    >
-                        <Wrapper>
-                            <Poster source={{uri : makeImagePath(movie.poster_path)}}></Poster>
-                            <Column>
-                                <Title isDark={isDark}>{movie.original_title}</Title>
-                                { movie.vote_average > 0 ? <Votes isDark={isDark}>⭐️{movie.vote_average}/10</Votes> : null}
-                                <Overview isDark={isDark}>{movie.overview.slice(0, 90)}...</Overview>
-                            </Column>
-                        </Wrapper>
-                    </BlurView>
-                </View>
+                <Slide key={movie.id}
+                    backdropPath = {movie.backdrop_path}
+                    posterPath = {movie.poster_path}
+                    originalTitle = {movie.original_title}
+                    voteAverage = {movie.vote_average}
+                    overview = {movie.overview}
+                />
             ))}
             
         </Swiper>
