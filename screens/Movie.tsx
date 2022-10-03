@@ -48,6 +48,37 @@ const Vote = styled.Text`
     font-size: 10px;
 `;
 
+const ListContainer = styled.View`
+    margin-bottom : 40px;
+`;
+
+const HMovie = styled.View`
+    padding: 0 30px;
+    flex-direction: row;
+    margin-bottom : 30px;
+`;
+
+const HColumn = styled.View`
+    margin-left: 15px;
+    width: 80%;
+`;
+
+const Overview = styled.Text`
+    color : white;
+    opacity: 0.8;
+    width: 80%;
+`;
+
+const Release = styled(Overview)`
+    width : 100%;
+    font-size: 12px;
+    margin-vertical: 10px;
+`;
+
+const CommingSoonTitle = styled(ListTitle)`
+    margin-bottom: 30px;
+`;
+
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
 // 코드를 컴파일하기 때문에 에러가 있으면 컴파일 하지 못하지만, 
@@ -69,7 +100,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
 
     const getUpcomming = async () => {
         const {results} = await(
-            await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1&region=KR`)
+            await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`)
         ).json();
         setUpcomming(results);
     };
@@ -118,22 +149,43 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                 />
             ))}
         </Swiper>
-        <ListTitle>Trending Movies</ListTitle> 
-        <TrendingScroll 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft : 30}}
-        >
-            {trending.map( trendMovie => 
-            <TrendMovie key={trendMovie.id}>
-                <Poster path={trendMovie.poster_path}></Poster>
-                <Title>
-                    {trendMovie.original_title.slice(0, 13)}
-                    {trendMovie.original_title.length > 13 ? "..." : ""}
-                </Title>
-                <Vote>⭐️ {trendMovie.vote_average.toFixed(1)}/10</Vote>
-            </TrendMovie>)}
-        </TrendingScroll>
+        <ListContainer>
+            <ListTitle>Trending Movies</ListTitle> 
+            <TrendingScroll 
+                horizontal 
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingLeft : 30}}
+            >
+                {trending.map( movie => 
+                <TrendMovie key={movie.id}>
+                    <Poster path={movie.poster_path}></Poster>
+                    <Title>
+                        {movie.original_title.slice(0, 13)}
+                        {movie.original_title.length > 13 ? "..." : ""}
+                    </Title>
+                    {movie.vote_average > 0 ?
+                        <Vote>⭐️ {movie.vote_average.toFixed(1)}/10</Vote>
+                    : "Comming Soon"}
+                    
+                </TrendMovie>)}
+            </TrendingScroll>
+        </ListContainer>
+        <CommingSoonTitle>Comming Soon</CommingSoonTitle> 
+                {upcomming.map( (movie) => 
+                    <HMovie key={movie.id}>
+                        <Poster path={movie.poster_path}></Poster>
+                        <HColumn>
+                            <Title>{movie.original_title}</Title>
+                            <Release>{new Date(movie.release_date).toLocaleDateString("ko")}</Release>
+                            {/* new Date(movie.release_date).toLocaleDateString("ko", {month: "long", day: "numeric", year: "long"}) */}
+                            <Overview>{
+                                movie.overview !== "" && movie.overview.length > 120 
+                                ? `${movie.overview.slice(0, 120)}...`
+                                : movie.overview}
+                            </Overview>
+                        </HColumn>
+                    </HMovie>)
+                }
     </CustomScrollView>)};
 
 
