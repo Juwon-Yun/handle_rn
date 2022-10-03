@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import styled from 'styled-components/native';
 import { makeImagePath } from '../common/utils';
+import Poster from './Poster';
 
 const View = styled.View`
     flex : 1;
@@ -18,11 +19,11 @@ const Title = styled.Text<{isDark : boolean}>`
     font-weight: 600;
     color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
 `
-const Poster = styled.Image`
-    width : 100px;
-    height : 160px;
-    border-radius: 5px;
-`;
+// const Poster = styled.Image`
+//     width : 100px;
+//     height : 160px;
+//     border-radius: 5px;
+// `;
 const Wrapper = styled.View`
     flex-direction: row;
     height : 100%;
@@ -72,7 +73,7 @@ const Slide: React.FC<SlideProps> = ({
             style={StyleSheet.absoluteFill}
         >
             <Wrapper>
-                <Poster source={{uri : makeImagePath(posterPath)}}></Poster>
+                <Poster path={posterPath}></Poster>
                 <Column>
                     <Title isDark={isDark}>{originalTitle}</Title>
                     { voteAverage > 0 ? <Votes isDark={isDark}>⭐️{voteAverage}/10</Votes> : null}

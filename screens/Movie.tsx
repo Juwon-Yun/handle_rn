@@ -1,12 +1,13 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, StyleSheet, useColorScheme } from "react-native";
+import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, useColorScheme } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
 import { makeImagePath } from "../common/utils";
 import { BlurView } from "expo-blur";
 import Slide from "../components/Slide";
+import Poster from "../components/Poster";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -15,45 +16,36 @@ const API_KEY = '34dbe792c998f87663d41737eb203cb2';
 const CustomScrollView = styled.ScrollView`
 `;
 
-const View = styled.View`
-    flex : 1;
-`
 const Loader = styled.View`
     flex : 1;
     justify-content : center;
     align-items : center;
 `
-const BgImg = styled.Image``
-const Title = styled.Text<{isDark : boolean}>`
-    font-size: 16px;
-    font-weight: 600;
-    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
-`
-const Poster = styled.Image`
-    width : 100px;
-    height : 160px;
-    border-radius: 5px;
-`;
-const Wrapper = styled.View`
-    flex-direction: row;
-    height : 100%;
-    justify-content: center;
-    align-items: center;
-`;
-const Column = styled.View`
-    width: 40%;
-    margin-left: 15px;
+
+const ListTitle = styled.Text`
+    color : white;
+    font-size : 16px;
+    font-weight : 600;
+    margin-left : 20px;
 `;
 
-const Overview = styled.Text<{isDark : boolean}>`
-    margin-top : 10px;
-    color: ${(props)=> props.isDark ? "rgba(255,255,255,0.8)" : "rgba(0, 0, 0,0.8)"};
+const TrendingScroll = styled.ScrollView`
+    margin-top : 20px;
 `;
 
-// extend style => flutter의 copyWith()와 같다.
-const Votes = styled(Overview)`
-    margin-top : 5px;
-    font-size: 12px;
+const TrendMovie = styled.View`
+    margin-right : 20px;
+`;
+
+const Title = styled.Text`
+    color : white;
+    font-weight : 600;
+    margin-top : 7px;
+    margin-bottom : 5px;
+`;
+const Vote = styled.Text`
+    color : rgba(255,255,255,0.8);
+    font-size: 10px;
 `;
 
 // TODO: 
@@ -114,7 +106,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             showsButtons={false}
             showsPagination={false}
             // controlsEnabled={false}
-            containerStyle={{width : "100%", height : swiperHeight * 0.25}}
+            containerStyle={{width : "100%", height : swiperHeight * 0.25, marginBottom : 30}}
         >
             {nowPlayingMovies.map(movie=>(
                 <Slide key={movie.id}
@@ -125,8 +117,23 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                     overview = {movie.overview}
                 />
             ))}
-            
         </Swiper>
+        <ListTitle>Trending Movies</ListTitle> 
+        <TrendingScroll 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingLeft : 30}}
+        >
+            {trending.map( trendMovie => 
+            <TrendMovie key={trendMovie.id}>
+                <Poster path={trendMovie.poster_path}></Poster>
+                <Title>
+                    {trendMovie.original_title.slice(0, 13)}
+                    {trendMovie.original_title.length > 13 ? "..." : ""}
+                </Title>
+                <Vote>⭐️ {trendMovie.vote_average.toFixed(1)}/10</Vote>
+            </TrendMovie>)}
+        </TrendingScroll>
     </CustomScrollView>)};
 
 
