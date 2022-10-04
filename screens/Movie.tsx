@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { ActivityIndicator, Dimensions, RefreshControl, ScrollView, StyleSheet, useColorScheme } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
@@ -90,6 +90,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
     const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
     const [upcomming, setUpcomming] = useState([]);
     const [trending, setTrending] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     const getTrending = async () => {
         const {results} = await(
@@ -123,12 +124,20 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         getDate();
     },[])
 
+    const onRefresh =  async () => {
+        setRefreshing(true);
+        await getDate();
+        setRefreshing(false);
+    };
+
     return loading ? (
         <Loader>
             <ActivityIndicator size={"small"}/>
         </Loader>
         ) : (
-    <CustomScrollView>
+    <CustomScrollView
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+    >
         <Swiper 
             horizontal
             loop 
