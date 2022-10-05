@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, RefreshControl, ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { ActivityIndicator, Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, useColorScheme } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
@@ -31,7 +31,7 @@ const ListTitle = styled.Text`
     margin-left : 20px;
 `;
 
-const TrendingScroll = styled.ScrollView`
+const TrendingScroll = styled.FlatList`
     margin-top : 20px;
 `;
 
@@ -136,19 +136,19 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         <ListContainer>
             <ListTitle>Trending Movies</ListTitle> 
             <TrendingScroll 
-                horizontal 
+                data={trending}
+                horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingLeft : 30}}
-            >
-                {trending.map(movie => (
+                renderItem={ ({item, }) => (
                     <VMedia 
-                        key={movie.id}
-                        posterPath={movie.poster_path}
-                        originalTitle={movie.original_title}
-                        voteAverage={movie.vote_average}
-                    />
-                ))
-                }
+                    key={item.id}
+                    posterPath={item.poster_path}
+                    originalTitle={item.original_title}
+                    voteAverage={item.vote_average}
+                />
+                )}
+            >
             </TrendingScroll>
         </ListContainer>
         <CommingSoonTitle>Comming Soon</CommingSoonTitle> 
