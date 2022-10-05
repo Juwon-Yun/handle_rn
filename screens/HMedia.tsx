@@ -35,7 +35,7 @@ const Title = styled.Text`
 `;
 
 interface HMediaProps {
-    poterPath : string;
+    posterPath : string;
     originalTitle : string;
     overview: string;
     releaseDate? : string;
@@ -43,7 +43,7 @@ interface HMediaProps {
 }
 
 const HMedia: React.FC<HMediaProps> = ({
-    poterPath,
+    posterPath,
     originalTitle,
     overview,
     releaseDate,
@@ -52,7 +52,7 @@ const HMedia: React.FC<HMediaProps> = ({
 
     return (
         <HMovie>
-            <Poster path={poterPath} />
+            <Poster path={posterPath} />
             <HColumn>
                 <Title>
                     {originalTitle.length > 30 ? `${originalTitle.slice(0, 30)}...` : originalTitle}

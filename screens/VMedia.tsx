@@ -8,7 +8,7 @@ const Movie = styled.View`
     align-items: center;
 `;
 
-const Title = styled.View`
+const Title = styled.Text`
     color: white;
     font-weight: 600;
     margin-top: 7px;

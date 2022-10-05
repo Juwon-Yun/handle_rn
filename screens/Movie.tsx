@@ -8,6 +8,8 @@ import { makeImagePath } from "../common/utils";
 import { BlurView } from "expo-blur";
 import Slide from "../components/Slide";
 import Poster from "../components/Poster";
+import VMedia from "./VMedia";
+import HMedia from "./HMedia";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -33,46 +35,16 @@ const TrendingScroll = styled.ScrollView`
     margin-top : 20px;
 `;
 
-const TrendMovie = styled.View`
-    margin-right : 20px;
-`;
-
-const Title = styled.Text`
-    color : white;
-    font-weight : 600;
-    margin-top : 7px;
-    margin-bottom : 5px;
-`;
-const Vote = styled.Text`
-    color : rgba(255,255,255,0.8);
-    font-size: 10px;
-`;
 
 const ListContainer = styled.View`
     margin-bottom : 40px;
 `;
 
-const HMovie = styled.View`
-    padding: 0 30px;
-    flex-direction: row;
-    margin-bottom : 30px;
-`;
-
-const HColumn = styled.View`
-    margin-left: 15px;
-    width: 80%;
-`;
 
 const Overview = styled.Text`
     color : white;
     opacity: 0.8;
     width: 80%;
-`;
-
-const Release = styled(Overview)`
-    width : 100%;
-    font-size: 12px;
-    margin-vertical: 10px;
 `;
 
 const CommingSoonTitle = styled(ListTitle)`
@@ -166,37 +138,29 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             <TrendingScroll 
                 horizontal 
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingLeft : 30}}
+                contentContainerStyle={{paddingLeft : 30}}
             >
-                {trending.map( movie => 
-                <TrendMovie key={movie.id}>
-                    <Poster path={movie.poster_path}></Poster>
-                    <Title>
-                        {movie.original_title.slice(0, 13)}
-                        {movie.original_title.length > 13 ? "..." : ""}
-                    </Title>
-                    {movie.vote_average > 0 ?
-                        <Vote>⭐️ {movie.vote_average.toFixed(1)}/10</Vote>
-                    : <Overview>"Comming Soon"</Overview>}
-                    
-                </TrendMovie>)}
+                {trending.map(movie => (
+                    <VMedia 
+                        key={movie.id}
+                        posterPath={movie.poster_path}
+                        originalTitle={movie.original_title}
+                        voteAverage={movie.vote_average}
+                    />
+                ))
+                }
             </TrendingScroll>
         </ListContainer>
         <CommingSoonTitle>Comming Soon</CommingSoonTitle> 
                 {upcomming.map( (movie) => 
-                    <HMovie key={movie.id}>
-                        <Poster path={movie.poster_path}></Poster>
-                        <HColumn>
-                            <Title>{movie.original_title}</Title>
-                            <Release>{new Date(movie.release_date).toLocaleDateString("ko")}</Release>
-                            {/* new Date(movie.release_date).toLocaleDateString("ko", {month: "long", day: "numeric", year: "long"}) */}
-                            <Overview>{
-                                movie.overview !== "" && movie.overview.length > 120 
-                                ? `${movie.overview.slice(0, 120)}...`
-                                : movie.overview}
-                            </Overview>
-                        </HColumn>
-                    </HMovie>)
+                   <HMedia
+                        key={movie.id}
+                        posterPath={movie.poster_path}
+                        originalTitle={movie.original_title}
+                        voteAverage={movie.vote_average}
+                        overview={movie.overview}
+                   />
+                   )
                 }
     </CustomScrollView>
     )};
