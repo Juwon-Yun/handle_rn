@@ -111,6 +111,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         ).json();
         setNowPlayingMovies(results);
     };
+
     const getDate = async () => {
         await Promise.all([
             getNowPlaying(),
@@ -118,8 +119,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             getTrending(),
         ]);
         setLoading(false);
-
     }
+    
     useEffect(()=>{
         getDate();
     },[])
@@ -136,7 +137,9 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         </Loader>
         ) : (
     <CustomScrollView
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+        }
     >
         <Swiper 
             horizontal
@@ -174,7 +177,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                     </Title>
                     {movie.vote_average > 0 ?
                         <Vote>⭐️ {movie.vote_average.toFixed(1)}/10</Vote>
-                    : "Comming Soon"}
+                    : <Overview>"Comming Soon"</Overview>}
                     
                 </TrendMovie>)}
             </TrendingScroll>
@@ -195,7 +198,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                         </HColumn>
                     </HMovie>)
                 }
-    </CustomScrollView>)};
+    </CustomScrollView>
+    )};
 
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
