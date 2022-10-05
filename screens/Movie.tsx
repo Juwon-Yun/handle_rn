@@ -7,7 +7,6 @@ import styled from "styled-components/native";
 import { makeImagePath } from "../common/utils";
 import { BlurView } from "expo-blur";
 import Slide from "../components/Slide";
-import Poster from "../components/Poster";
 import VMedia from "./VMedia";
 import HMedia from "./HMedia";
 
@@ -28,7 +27,7 @@ const ListTitle = styled.Text`
     color : white;
     font-size : 16px;
     font-weight : 600;
-    margin-left : 20px;
+    margin-left : 30px;
 `;
 
 const TrendingScroll = styled.FlatList`
@@ -38,13 +37,6 @@ const TrendingScroll = styled.FlatList`
 
 const ListContainer = styled.View`
     margin-bottom : 40px;
-`;
-
-
-const Overview = styled.Text`
-    color : white;
-    opacity: 0.8;
-    width: 80%;
 `;
 
 const CommingSoonTitle = styled(ListTitle)`
