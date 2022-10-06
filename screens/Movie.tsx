@@ -1,11 +1,9 @@
-import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
-import { makeImagePath } from "../common/utils";
-import { BlurView } from "expo-blur";
 import Slide from "../components/Slide";
 import VMedia from "./VMedia";
 import HMedia from "./HMedia";
@@ -13,9 +11,6 @@ import HMedia from "./HMedia";
 const {height : swiperHeight} = Dimensions.get("window");
 
 const API_KEY = '34dbe792c998f87663d41737eb203cb2';
-
-const CustomScrollView = styled.ScrollView`
-`;
 
 const Loader = styled.View`
     flex : 1;
@@ -103,6 +98,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         setRefreshing(false);
     };
 
+    const movieKeyExtractor = (item) => item.id + ""
+
     const renderVMedia = ({item, index, separators}) => (
         <VMedia 
             key={item.id}
@@ -157,15 +154,14 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             <ListTitle>Trending Movies</ListTitle> 
             {/* FlatList doc https://reactnative.dev/docs/flatlist#required-renderitem */}
             <TrendingScroll 
-                data={trending}
                 horizontal
-                showsHorizontalScrollIndicator={false}
+                data={trending}
                 contentContainerStyle={{paddingLeft : 30}}
-
+                showsHorizontalScrollIndicator={false}
                 // ItemSeparatorComponent={() => <View><Text>between movie component</Text></View>}
-                ItemSeparatorComponent={() => <VSpacer/>}
+                ItemSeparatorComponent={VSpacer}
                 // key 랑 같음
-                keyExtractor={item => item.id+""}
+                keyExtractor={movieKeyExtractor}
                 renderItem={renderVMedia}
             >
             </TrendingScroll>
@@ -177,8 +173,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         // }
 
         data={upcomming}
-        ItemSeparatorComponent={() => <HSpacer/>}
-        keyExtractor={item => item.id+""}
+        ItemSeparatorComponent={HSpacer}
+        keyExtractor={movieKeyExtractor}
         renderItem={renderHMedia}
 
     >

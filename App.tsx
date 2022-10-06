@@ -12,7 +12,9 @@ import Root from './navigation/Root';
 import { ThemeProvider } from 'styled-components/native';
 import { darkTheme, lightTheme } from './styles/custom_theme';
 import * as SplashScreen from 'expo-splash-screen';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
+const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 
@@ -83,11 +85,13 @@ export default function App() {
 
 
   return (
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-    <NavigationContainer>
-      {/* <Tabs /> */}
-        <Root />
-    </NavigationContainer>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <NavigationContainer>
+        {/* <Tabs /> */}
+          <Root />
+      </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
