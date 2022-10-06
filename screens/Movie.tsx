@@ -100,11 +100,12 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             <ActivityIndicator size={"small"}/>
         </Loader>
         ) : (
-    <CustomScrollView
-        refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
-        }
-    >
+    <FlatList
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        // List Header Component 를 사용해서 마찬가지로 FlatList로 감싼다.
+        ListHeaderComponent={(
+        <>
         <Swiper 
             horizontal
             loop 
@@ -150,17 +151,26 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             </TrendingScroll>
         </ListContainer>
         <CommingSoonTitle>Comming Soon</CommingSoonTitle> 
-                {upcomming.map( (movie) => 
-                   <HMedia
-                        key={movie.id}
-                        posterPath={movie.poster_path}
-                        originalTitle={movie.original_title}
-                        voteAverage={movie.vote_average}
-                        overview={movie.overview}
-                   />
-                   )
-                }
-    </CustomScrollView>
+        </>)}
+        // refreshControl={
+        //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+        // }
+
+        data={upcomming}
+        ItemSeparatorComponent={() => <View style={{height : 30}}></View>}
+        keyExtractor={item => item.id+""}
+        renderItem={ ({item, index, separators}) => (
+            <HMedia
+            key={item.id}
+            posterPath={item.poster_path}
+            originalTitle={item.original_title}
+            voteAverage={item.vote_average}
+            overview={item.overview}
+       />
+        )}
+
+    >
+    </FlatList>
     )};
 
 
