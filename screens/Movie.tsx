@@ -43,6 +43,14 @@ const CommingSoonTitle = styled(ListTitle)`
     margin-bottom: 30px;
 `;
 
+const VSpacer = styled.View`
+    width : 20px;
+`;
+
+const HSpacer = styled.View`
+    height : 20px;
+`;
+
 // TODO: 
 // node.js나 React에서 Typescript로 작업할 때 에러가 발생하면 TypeScript가 
 // 코드를 컴파일하기 때문에 에러가 있으면 컴파일 하지 못하지만, 
@@ -95,6 +103,25 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         setRefreshing(false);
     };
 
+    const renderVMedia = ({item, index, separators}) => (
+        <VMedia 
+            key={item.id}
+            posterPath={item.poster_path}
+            originalTitle={item.original_title}
+            voteAverage={item.vote_average}
+        />
+    );
+
+    const renderHMedia = ({item, index, separators}) => (
+        <HMedia
+            key={item.id}
+            posterPath={item.poster_path}
+            originalTitle={item.original_title}
+            voteAverage={item.vote_average}
+            overview={item.overview}
+        />
+    );
+
     return loading ? (
         <Loader>
             <ActivityIndicator size={"small"}/>
@@ -136,17 +163,10 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
                 contentContainerStyle={{paddingLeft : 30}}
 
                 // ItemSeparatorComponent={() => <View><Text>between movie component</Text></View>}
-                ItemSeparatorComponent={() => <View style={{width : 30}}></View>}
+                ItemSeparatorComponent={() => <VSpacer/>}
                 // key 랑 같음
                 keyExtractor={item => item.id+""}
-                renderItem={ ({item, index, separators}) => (
-                    <VMedia 
-                    key={item.id}
-                    posterPath={item.poster_path}
-                    originalTitle={item.original_title}
-                    voteAverage={item.vote_average}
-                />
-                )}
+                renderItem={renderVMedia}
             >
             </TrendingScroll>
         </ListContainer>
@@ -157,17 +177,9 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         // }
 
         data={upcomming}
-        ItemSeparatorComponent={() => <View style={{height : 30}}></View>}
+        ItemSeparatorComponent={() => <HSpacer/>}
         keyExtractor={item => item.id+""}
-        renderItem={ ({item, index, separators}) => (
-            <HMedia
-            key={item.id}
-            posterPath={item.poster_path}
-            originalTitle={item.original_title}
-            voteAverage={item.vote_average}
-            overview={item.overview}
-       />
-        )}
+        renderItem={renderHMedia}
 
     >
     </FlatList>
