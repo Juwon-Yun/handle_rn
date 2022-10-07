@@ -13,4 +13,4 @@ const nowPlaying = () => fetch(`${baseUrl}movie/now_playing?api_key=${API_KEY}&l
         response => response.json()
     );
 
-    export const moviesApi = {trending, upcomming, nowPlaying};
+export const moviesApi = {trending, upcomming, nowPlaying};

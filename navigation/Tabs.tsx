@@ -20,6 +20,8 @@ const Tabs = () => {
       sceneContainerStyle={{ backgroundColor: isDark ? BLACK_COLOR : 'white'}}
       initialRouteName='Movie'
       screenOptions={{
+        // useQuery의 메모리 캐싱 기능을 위해 켬
+        unmountOnBlur : true,
         tabBarStyle:{
           backgroundColor : isDark ? BLACK_COLOR : 'white'
         },

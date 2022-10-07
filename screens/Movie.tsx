@@ -12,8 +12,6 @@ import { moviesApi } from "../api/api";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
-const API_KEY = '34dbe792c998f87663d41737eb203cb2';
-
 const Loader = styled.View`
     flex : 1;
     justify-content : center;
@@ -56,7 +54,7 @@ const HSpacer = styled.View`
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
     const [refreshing, setRefreshing] = useState(false);
-    const {isLoading : nowPlayingIsLoading, isError : nowPlayingIsError, data : nowPlayingData} = useQuery("nowPlaying", moviesApi.nowPlaying);
+    const {isLoading : nowPlayingIsLoading, isError : nowPlayingIsError, data : nowPlayingData} = useQuery("nowPlaying", moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetching 했을 때, 다른게 없다면 cache에서 꺼내온다. 
     const {isLoading : upcommingIsLoading, isError : upcommingIsError, data : upcommingData} = useQuery("upcomming", moviesApi.upcomming);
     const {isLoading : trendingIsLoading, isError : trendingIsError, data : trendingData} = useQuery("trending", moviesApi.trending);
 
