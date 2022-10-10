@@ -7,7 +7,7 @@ import styled from "styled-components/native";
 import Slide from "../components/Slide";
 import VMedia from "./VMedia";
 import HMedia from "./HMedia";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { moviesApi } from "../api/api";
 
 const {height : swiperHeight} = Dimensions.get("window");
@@ -54,32 +54,38 @@ const HSpacer = styled.View`
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
     // const [refreshing, setRefreshing] = useState(false);
+    // 모든 쿼리, 캐시를 관리한다.
+    const queryClient = useQueryClient();
+
     const {
         isLoading : nowPlayingIsLoading,
         isError : nowPlayingIsError,
         data : nowPlayingData,
         isRefetching : isRefetchingNowPlaying,
         refetch : refetchNowPlaying,
-    } = useQuery("nowPlaying", moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetcher 했을 때, 다른게 없다면 cache에서 꺼내온다. 
+        // fetcher의 카테고리로 범주화한다.
+        // query key가 생략되어 사용된다. 
+    } = useQuery(["movies","nowPlaying"], moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetcher 했을 때, 다른게 없다면 cache에서 꺼내온다. 
     const {
         isLoading : upcommingIsLoading,
         isError : upcommingIsError,
         data : upcommingData,
         isRefetching : isRefetchingUpcomming,
         refetch : refetchUpcomming,
-    } = useQuery("upcomming", moviesApi.upcomming);
+    } = useQuery(["movies","upcomming"], moviesApi.upcomming);
     const {
         isLoading : trendingIsLoading,
         isError : trendingIsError,
         data : trendingData,
         refetch : refetchTrending,
         isRefetching : isRefetchingTrending,
-    } = useQuery("trending", moviesApi.trending);
+    } = useQuery(["movies","trending"], moviesApi.trending);
 
     const onRefresh =  async () => {
-        refetchNowPlaying()
-        refetchUpcomming()
-        refetchTrending()
+        // refetchNowPlaying()
+        // refetchUpcomming()
+        // refetchTrending()
+        queryClient.refetchQueries(["movies"]);
     };
 
     const movieKeyExtractor = (item) => item.id + ""
@@ -105,7 +111,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
 
     const loading = nowPlayingIsLoading || upcommingIsLoading || trendingIsLoading;
     const refreshing = isRefetchingNowPlaying || isRefetchingUpcomming || isRefetchingTrending;
-
+    
     return loading ? (
         <Loader>
             <ActivityIndicator size={"small"}/>
