@@ -53,53 +53,33 @@ const HSpacer = styled.View`
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{ 
-    const [refreshing, setRefreshing] = useState(false);
-    const {isLoading : nowPlayingIsLoading, isError : nowPlayingIsError, data : nowPlayingData} = useQuery("nowPlaying", moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetching 했을 때, 다른게 없다면 cache에서 꺼내온다. 
-    const {isLoading : upcommingIsLoading, isError : upcommingIsError, data : upcommingData} = useQuery("upcomming", moviesApi.upcomming);
-    const {isLoading : trendingIsLoading, isError : trendingIsError, data : trendingData} = useQuery("trending", moviesApi.trending);
-
-    // const [loading, setLoading] = useState(true);
-    // const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-    // const [upcomming, setUpcomming] = useState([]);
-    // const [trending, setTrending] = useState([]);
-
-    // const getTrending = async () => {
-    //     const {results} = await(
-    //         await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`)
-    //     ).json();
-    //     setTrending(results);
-    // }
-
-    // const getUpcomming = async () => {
-    //     const {results} = await(
-    //         await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}`)
-    //     ).json();
-    //     setUpcomming(results);
-    // };
-    // const getNowPlaying = async () => {
-    //     const {results} = await(
-    //         await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`)
-    //     ).json();
-    //     setNowPlayingMovies(results);
-    // };
-
-    // const getDate = async () => {
-    //     await Promise.all([
-    //         getNowPlaying(),
-    //         getUpcomming(),
-    //         getTrending(),
-    //     ]);
-    //     setLoading(false);
-    // }
-    
-    // useEffect(()=>{
-    //     getDate();
-    // },[])
+    // const [refreshing, setRefreshing] = useState(false);
+    const {
+        isLoading : nowPlayingIsLoading,
+        isError : nowPlayingIsError,
+        data : nowPlayingData,
+        isRefetching : isRefetchingNowPlaying,
+        refetch : refetchNowPlaying,
+    } = useQuery("nowPlaying", moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetcher 했을 때, 다른게 없다면 cache에서 꺼내온다. 
+    const {
+        isLoading : upcommingIsLoading,
+        isError : upcommingIsError,
+        data : upcommingData,
+        isRefetching : isRefetchingUpcomming,
+        refetch : refetchUpcomming,
+    } = useQuery("upcomming", moviesApi.upcomming);
+    const {
+        isLoading : trendingIsLoading,
+        isError : trendingIsError,
+        data : trendingData,
+        refetch : refetchTrending,
+        isRefetching : isRefetchingTrending,
+    } = useQuery("trending", moviesApi.trending);
 
     const onRefresh =  async () => {
-        setRefreshing(true);
-        // await getDate();
-        setRefreshing(false);
+        refetchNowPlaying()
+        refetchUpcomming()
+        refetchTrending()
     };
 
     const movieKeyExtractor = (item) => item.id + ""
@@ -123,7 +103,8 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         />
     );
 
-        const loading = nowPlayingIsLoading || upcommingIsLoading || trendingIsLoading;
+    const loading = nowPlayingIsLoading || upcommingIsLoading || trendingIsLoading;
+    const refreshing = isRefetchingNowPlaying || isRefetchingUpcomming || isRefetchingTrending;
 
     return loading ? (
         <Loader>
