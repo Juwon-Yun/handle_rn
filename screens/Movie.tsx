@@ -14,8 +14,8 @@ import Loader from "../components/Loader";
 const {height : swiperHeight} = Dimensions.get("window");
 
 
-const ListTitle = styled.Text`
-    color : white;
+const ListTitle = styled.Text<{isDark : boolean}>`
+    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
     font-size : 16px;
     font-weight : 600;
     margin-left : 30px;

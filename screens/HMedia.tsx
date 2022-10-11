@@ -13,22 +13,22 @@ const HColumn = styled.View`
     width: 80%;
 `;
 
-const Overview = styled.Text`
-    color : white;
+const Overview = styled.Text<{isDark : boolean}>`
+    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};    
     opacity: 0.8;
     width: 80%;
 `;
 
-const Release = styled.Text`
-    color: white;
+const Release = styled.Text<{isDark : boolean}>`
+    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
     font-size: 12px;
     margin-vertical: 10px;
     font-weight: 500;
     opacity: 0.6;
 `;
 
-const Title = styled.Text`
-    color: white;
+const Title = styled.Text<{isDark : boolean}>`
+    color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
     font-weight: 600;
     margin-top: 7px;
 `;
