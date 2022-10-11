@@ -9,14 +9,10 @@ import VMedia from "./VMedia";
 import HMedia from "./HMedia";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { MovieResponse, moviesApi } from "../api/api";
+import Loader from "../components/Loader";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
-const Loader = styled.View`
-    flex : 1;
-    justify-content : center;
-    align-items : center;
-`
 
 const ListTitle = styled.Text`
     color : white;
@@ -117,9 +113,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
     // console.log(Object.values(nowPlayingData.results[0]).map(el => typeof el))
 
     return loading ? (
-        <Loader>
-            <ActivityIndicator size={"small"}/>
-        </Loader>
+        <Loader /> 
         ) : (
             upcommingData ? 
     <FlatList
