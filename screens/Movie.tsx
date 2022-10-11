@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Dimensions, FlatList, RefreshControl, ScrollView, StyleSheet, Text, useColorScheme, View } from "react-native";
+import { ActivityIndicator, Dimensions, FlatList } from "react-native";
 // https://github.com/reactrondev/react-native-web-swiper
 import Swiper from "react-native-swiper";
 import styled from "styled-components/native";
@@ -8,7 +8,7 @@ import Slide from "../components/Slide";
 import VMedia from "./VMedia";
 import HMedia from "./HMedia";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { moviesApi } from "../api/api";
+import { MovieResponse, moviesApi } from "../api/api";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -27,7 +27,7 @@ const ListTitle = styled.Text`
 
 const TrendingScroll = styled.FlatList`
     margin-top : 20px;
-`;
+`as unknown as typeof FlatList; // styled-component 자체의 flatlist 와 분별
 
 
 const ListContainer = styled.View`
@@ -65,21 +65,22 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         refetch : refetchNowPlaying,
         // fetcher의 카테고리로 범주화한다.
         // query key가 생략되어 사용된다. 
-    } = useQuery(["movies","nowPlaying"], moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetcher 했을 때, 다른게 없다면 cache에서 꺼내온다. 
+        // key : string | string []
+    } = useQuery<MovieResponse>(["movies","nowPlaying"], moviesApi.nowPlaying); // 다른 컴포넌트에서 nowPlaying 쿼리로 fetcher 했을 때, 다른게 없다면 cache에서 꺼내온다. 
     const {
         isLoading : upcommingIsLoading,
         isError : upcommingIsError,
         data : upcommingData,
         isRefetching : isRefetchingUpcomming,
         refetch : refetchUpcomming,
-    } = useQuery(["movies","upcomming"], moviesApi.upcomming);
+    } = useQuery<MovieResponse>(["movies","upcomming"], moviesApi.upcomming);
     const {
         isLoading : trendingIsLoading,
         isError : trendingIsError,
         data : trendingData,
         refetch : refetchTrending,
         isRefetching : isRefetchingTrending,
-    } = useQuery(["movies","trending"], moviesApi.trending);
+    } = useQuery<MovieResponse>(["movies","trending"], moviesApi.trending);
 
     const onRefresh =  async () => {
         // refetchNowPlaying()
@@ -112,11 +113,15 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
     const loading = nowPlayingIsLoading || upcommingIsLoading || trendingIsLoading;
     const refreshing = isRefetchingNowPlaying || isRefetchingUpcomming || isRefetchingTrending;
     
+    // console.log(Object.keys(nowPlayingData.results[0]))
+    // console.log(Object.values(nowPlayingData.results[0]).map(el => typeof el))
+
     return loading ? (
         <Loader>
             <ActivityIndicator size={"small"}/>
         </Loader>
         ) : (
+            upcommingData ? 
     <FlatList
         onRefresh={onRefresh}
         refreshing={refreshing}
@@ -133,10 +138,10 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             // controlsEnabled={false}
             containerStyle={{width : "100%", height : swiperHeight * 0.25, marginBottom : 30}}
         >
-            {nowPlayingData.results.map(movie=>(
+            {nowPlayingData?.results.map(movie=>(
                 <Slide key={movie.id}
-                    backdropPath = {movie.backdrop_path}
-                    posterPath = {movie.poster_path}
+                    backdropPath = {movie.backdrop_path || ""}
+                    posterPath = {movie.poster_path || ""}
                     originalTitle = {movie.original_title}
                     voteAverage = {movie.vote_average}
                     overview = {movie.overview}
@@ -148,7 +153,7 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             {/* FlatList doc https://reactnative.dev/docs/flatlist#required-renderitem */}
             <TrendingScroll 
                 horizontal
-                data={trendingData.results}
+                data={trendingData?.results}
                 contentContainerStyle={{paddingLeft : 30}}
                 showsHorizontalScrollIndicator={false}
                 // ItemSeparatorComponent={() => <View><Text>between movie component</Text></View>}
@@ -164,14 +169,12 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
         // refreshControl={
         //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
         // }
-
         data={upcommingData.results}
         ItemSeparatorComponent={HSpacer}
         keyExtractor={movieKeyExtractor}
         renderItem={renderHMedia}
-
-    >
-    </FlatList>
+        > 
+        </FlatList>: null
     )};
 
 
