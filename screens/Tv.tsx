@@ -3,6 +3,7 @@ import {View, Text, ScrollView, FlatList} from 'react-native'
 import { useQuery } from "react-query";
 import { tvApi } from "../api/api";
 import Loader from "../components/Loader";
+import Row from "./Row";
 import VMedia from "./VMedia";
 
 const Tv = () => {
@@ -18,6 +19,7 @@ const Tv = () => {
 
     return (
         <ScrollView>
+            <Row title="Trending TV">
              <FlatList 
                 data={trandingData.results}
                 horizontal
@@ -30,6 +32,7 @@ const Tv = () => {
                     />
                 )}
             />
+            </Row>
             <FlatList 
                 data={todayData.results}
                 horizontal
