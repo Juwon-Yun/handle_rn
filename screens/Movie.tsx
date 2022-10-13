@@ -10,6 +10,7 @@ import HMedia from "./HMedia";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { MovieResponse, moviesApi } from "../api/api";
 import Loader from "../components/Loader";
+import Row from "./Row";
 
 const {height : swiperHeight} = Dimensions.get("window");
 
@@ -143,20 +144,12 @@ const Movie : React.FC<NativeStackScreenProps<any, 'Movie'>> = () =>{
             ))}
         </Swiper>
         <ListContainer>
-            <ListTitle>Trending Movies</ListTitle> 
             {/* FlatList doc https://reactnative.dev/docs/flatlist#required-renderitem */}
-            <TrendingScroll 
-                horizontal
-                data={trendingData?.results}
-                contentContainerStyle={{paddingLeft : 30}}
-                showsHorizontalScrollIndicator={false}
-                // ItemSeparatorComponent={() => <View><Text>between movie component</Text></View>}
-                ItemSeparatorComponent={VSpacer}
-                // key 랑 같음
-                keyExtractor={movieKeyExtractor}
-                renderItem={renderVMedia}
-            >
-            </TrendingScroll>
+            {
+                trendingData ? (
+                    <Row title={"Trending Movies"} data={trendingData.results}/>
+                ) : null
+            } 
         </ListContainer>
         <CommingSoonTitle>Comming Soon</CommingSoonTitle> 
         </>)}

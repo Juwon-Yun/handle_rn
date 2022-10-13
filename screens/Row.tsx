@@ -36,7 +36,7 @@ const Row : React.FC<RowProps> = ({title, data}) => (
             renderItem={({item}) => (
                 <VMedia
                     posterPath={item.poster_path}
-                    originalTitle={item.original_name}
+                    originalTitle={item.original_title ?? item.original_name}
                     voteAverage={item.vote_average}
                 />
             )}
