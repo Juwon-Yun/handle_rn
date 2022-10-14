@@ -11,7 +11,7 @@ const ListTitle = styled.Text<{isDark : boolean}>`
     color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
     font-size : 16px;
     font-weight : 600;
-    margin-left : 30px;
+    margin-left : 20px;
     margin-bottom: 20px;
 `;
 
@@ -32,7 +32,7 @@ const Row : React.FC<RowProps> = ({title, data}) => (
             horizontal
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={VSpacer}
-            contentContainerStyle={{paddingHorizontal : 30}}
+            contentContainerStyle={{paddingHorizontal : 20}}
             keyExtractor={(item) => item.id + ""}
             renderItem={({item}) => (
                 <VMedia
