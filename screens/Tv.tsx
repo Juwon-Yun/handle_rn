@@ -1,24 +1,35 @@
 import React from "react";
-import {View, Text, ScrollView, FlatList} from 'react-native'
-import { useQuery } from "react-query";
+import {RefreshControl, ScrollView} from 'react-native'
+import { useQuery, useQueryClient } from "react-query";
 import { tvApi } from "../api/api";
 import Loader from "../components/Loader";
-import Row, { VSpacer } from "./Row";
-import VMedia from "./VMedia";
+import Row from "./Row";
 
 const Tv = () => {
-    const {isLoading : todayLoading, data : todayData } = useQuery(["tv", "today"], tvApi.airingToday);
-    const {isLoading : topLoading, data : topData } = useQuery(["tv", "top"], tvApi.topRated);
-    const {isLoading : trandingLoading, data : trandingData } = useQuery(["tv", "tranding"], tvApi.trending);
+    const queryClient = useQueryClient();
+
+    const {isLoading : todayLoading, data : todayData, isRefetching : todayRefetching } = useQuery(["tv", "today"], tvApi.airingToday);
+    const {isLoading : topLoading, data : topData, isRefetching : topRefetching } = useQuery(["tv", "top"], tvApi.topRated);
+    const {isLoading : trandingLoading, data : trandingData, isRefetching : trandingRefetching } = useQuery(["tv", "tranding"], tvApi.trending);
 
     const loading = todayLoading || topLoading || trandingLoading;
+    const refreshing = todayRefetching || topRefetching || trandingRefetching;
+
+    const onRefresh = () => {
+        queryClient.refetchQueries(["tv"]);
+    };
 
     if(loading){
         return (<Loader />)
     }
 
     return (
-        <ScrollView contentContainerStyle={{paddingVertical : 30}}> 
+        <ScrollView 
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+            }
+            contentContainerStyle={{paddingVertical : 30}}
+        > 
             <Row title="Trending TV" data={trandingData.results} />
             <Row title="Airing Today" data={todayData.results} />
             <Row title="Top Rated TV" data={topData.results} />
@@ -26,4 +37,4 @@ const Tv = () => {
     )
 }
 
-export default Tv
+export default Tv 

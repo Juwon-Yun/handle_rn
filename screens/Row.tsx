@@ -33,6 +33,7 @@ const Row : React.FC<RowProps> = ({title, data}) => (
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={VSpacer}
             contentContainerStyle={{paddingHorizontal : 30}}
+            keyExtractor={(item) => item.id + ""}
             renderItem={({item}) => (
                 <VMedia
                     posterPath={item.poster_path}
