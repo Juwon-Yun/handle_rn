@@ -14,11 +14,10 @@ const Tv = () => {
     const {isLoading : trandingLoading, data : trandingData } = useQuery(["tv", "tranding"], tvApi.trending);
 
     const loading = todayLoading || topLoading || trandingLoading;
-    // const refreshing = todayRefetching || topRefetching || trandingRefetching;
 
     const onRefresh = async () => {
         setRefreshing(true)
-        queryClient.refetchQueries(["tv"]);
+        await queryClient.refetchQueries(["tv"]);
         setRefreshing(false)
     };
 
