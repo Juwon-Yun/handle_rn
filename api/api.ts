@@ -39,6 +39,13 @@ export const moviesApi = {
     nowPlaying : () => fetch(`${baseUrl}movie/now_playing?api_key=${API_KEY}&language=en-US&page=1&region=KR`).then(
         response => response.json()
     ),
+    search : ({queryKey}) => {
+        // key 배열의 두번째꺼 꺼냄
+        const [_, query] = queryKey;
+
+        return fetch(`${baseUrl}/search/movie?api_key=${API_KEY}&language=en-US&page=1&query=${query}`).then(
+        response => response.json()
+    )},
 };
 
 export const tvApi = {
