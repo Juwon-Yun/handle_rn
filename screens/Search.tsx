@@ -18,16 +18,23 @@ const SearchBar = styled.TextInput<{isDark : boolean}>`
 
 const Search = () => {
     const [query, setQuery] = useState("")
-    const {isLoading} = useQuery(["searchMovies", query], moviesApi.search);
+    const {isLoading, data, refetch : searchMovies} = useQuery(
+        ["searchMovies", query],
+        moviesApi.search,
+        {
+            enabled : false, // component 가 첫 mount하는 시점에 fetch를 막는다.
+        },
+     );
     
-    const onChangeText = (test:string) => setQuery(test)
+    const onChangeText = (text:string) => setQuery(text)
 
     const onSubmit = () => {
         if(query === ""){
             return;
         }
-        alert("search");
+        searchMovies();
     }
+    console.log(isLoading ,data);
 
     return (<Container>
         <SearchBar 
