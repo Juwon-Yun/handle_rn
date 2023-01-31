@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {View, Text} from 'react-native'
 import styled from "styled-components/native";
-import { moviesApi } from "../api/api";
+import { moviesApi, tvApi } from "../api/api";
 import { useQuery, useQueryClient } from "react-query";
 
 const Container = styled.ScrollView`
@@ -18,13 +18,21 @@ const SearchBar = styled.TextInput<{isDark : boolean}>`
 
 const Search = () => {
     const [query, setQuery] = useState("")
-    const {isLoading, data, refetch : searchMovies} = useQuery(
+    const {isLoading : moviesLoading, data : moviesData, refetch : searchMovies} = useQuery(
         ["searchMovies", query],
         moviesApi.search,
         {
             enabled : false, // component 가 첫 mount하는 시점에 fetch를 막는다.
         },
      );
+
+     const {isLoading : tvLoading, data : tvData, refetch : searchTv} = useQuery(
+        ["searchTv", query], 
+        tvApi.search,
+        {
+            enabled : false,
+        },
+    );
     
     const onChangeText = (text:string) => setQuery(text)
 
@@ -34,7 +42,7 @@ const Search = () => {
         }
         searchMovies();
     }
-    console.log(isLoading ,data);
+    console.log('movies ', moviesLoading ,moviesData);
 
     return (<Container>
         <SearchBar 

@@ -58,4 +58,10 @@ export const tvApi = {
     topRated: () => fetch(`${baseUrl}tv/top_rated?api_key=${API_KEY}`).then(
         response => response.json()
     ),
+     search : ({queryKey}) => {
+        const [_, query] = queryKey;
+
+        return fetch(`${baseUrl}/search/movie?api_key=${API_KEY}&language=en-US&page=1&query=${query}`).then(
+        response => response.json()
+    )},
 };
