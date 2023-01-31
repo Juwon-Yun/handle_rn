@@ -9,7 +9,7 @@ const Container = styled.ScrollView`
 `;
 
 const SearchBar = styled.TextInput<{isDark : boolean}>`
-    background-color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};;
+    background-color: ${(props)=> (props.isDark ? "white" : props.theme.textColor)};
     padding: 10px 15px;
     border-radius: 15px;
     width : 90%;
@@ -42,7 +42,10 @@ const Search = () => {
         }
         searchMovies();
     }
+
     console.log('movies ', moviesLoading ,moviesData);
+    
+    console.log('tv ', tvLoading ,tvData);
 
     return (<Container>
         <SearchBar 
